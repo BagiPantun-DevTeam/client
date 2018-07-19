@@ -7,34 +7,32 @@
 <link rel="stylesheet" href="style.css">
 <style>
 </style>
+
 </head>
 <body>
 <div class="container">
   <div id="app"> 
     <div class="row">
-      <h2 style="text-align:center">Register or Login</h2>
-      <div class="vl">
-        <span class="vl-innertext">or</span>
-      </div>
+        <template v-if="seen">
+            <div class="vl">
+                <h2 style="text-align:center">Login</h2>
+                <input type="email" v-model="email" placeholder="Email" required>
+                <input type="password" v-model="password" placeholder="Password" required>
+                <input type="submit" value="Login" v-on:click="login">
+                <p style="text-align: right">Not a user yet? <button v-on:click="register">Register</button></p>
+            </div>
+        </template>
 
-      <div class="col">
-        <div class="hide-md-lg">
-          <p>Register:</p>
-        </div>
-        <input type="text" v-model="username" placeholder="Username" required>
-        <input type="email" v-model="email" placeholder="Email" required>
-        <input type="password" v-model="password" placeholder="Password" required>
-        <input type="submit" value="Register" v-on:click="register">
-      </div>
-
-      <div class="col">
-        <div class="hide-md-lg">
-          <p>Sign in:</p>
-        </div>
-        <input type="email" v-model="email" placeholder="Email" required>
-        <input type="password" v-model="password" placeholder="Password" required>
-        <input type="submit" value="Login" v-on:click="login">
-      </div>
+        <!-- <template v-else> -->
+            <div class="vl">
+                <h2 style="text-align:center">Register</h2>
+                <input type="text" v-model="username" placeholder="Username" required>
+                <input type="email" v-model="email" placeholder="Email" required>
+                <input type="password" v-model="password" placeholder="Password" required>
+                <input type="submit" value="Register" v-on:click="register">
+                <p style="text-align: right">Already have an account? <button v-on:click="login">Login</button></p>
+            </div>
+        <!-- </template> -->
     </div>
   </div> 
 <script>
@@ -44,10 +42,12 @@
       username : username,
       email: email,
       password: password,
+      seen: true
     },
     methods: {
       register(){
-        axios.post('http://localhost:3000/users/signup', {
+        this.seen = false
+        axios.post('http://localhost:3000/signup', {
           username: this.username,
           email: this.email,
           password: this.password
@@ -62,7 +62,7 @@
         })
       },
       login(){
-        axios.post('http://localhost:3000/users/login', {
+        axios.post('http://localhost:3000/login', {
           username: this.username,
           password: this.password
         })

@@ -12,7 +12,8 @@
 <style>
 </style>
 <body>
-    <div class="container">
+    <div id="app">
+        <div class="container">
             <div class="col-sm-12" v-model="user">
                 <div class="logout" v-on:click="logout" style="text-align: right">Logout</div>
                 <div style="text-align:left">
@@ -20,89 +21,111 @@
                     <h4>Setia Anggraeni</h4>
                 </div>
             </div>
-        <div class="row">
-            <div class="column">
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="sambal-ikan-tuna-asap-pedas-2-botol-150gr.jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Username</h5>
-                        <p class="card-text">Pantunnya: Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Share to Tumblr</a>
+            <hr>
+            <div class="update">
+                <textarea>Your Status...</textarea>
+                <br>
+                <input type="file">
+                <button id="Upload" style="border-radius: 10px;">Upload</button>
+            </div>
+            <br>
+            <div class="row">
+                <div class="column">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="img/sambal-ikan-tuna-asap-pedas-2-botol-150gr.jpg" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Username</h5>
+                            <p class="card-text">Pantunnya: Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <img src="img/tumblr.jpg" v-on:click="share" style="width: 25px;">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="column">
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="sambal-ikan-tuna-asap-pedas-2-botol-150gr.jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Username</h5>
-                        <p class="card-text">Pantunnya: Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Share to Tumblr</a>
+                <div class="column">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="img/sambal-ikan-tuna-asap-pedas-2-botol-150gr.jpg" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Username</h5>
+                            <p class="card-text">Pantunnya: Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <img src="img/tumblr.jpg" v-on:click="share" style="width: 25px;">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="column">
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="sambal-ikan-tuna-asap-pedas-2-botol-150gr.jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Username</h5>
-                        <p class="card-text">Pantunnya: Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Share to Tumblr</a>
+                <div class="column">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="img/sambal-ikan-tuna-asap-pedas-2-botol-150gr.jpg" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Username</h5>
+                            <p class="card-text">Pantunnya: Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <img src="img/tumblr.jpg" v-on:click="share" style="width: 25px;">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="column">
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="sambal-ikan-tuna-asap-pedas-2-botol-150gr.jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Username</h5>
-                        <p class="card-text">Pantunnya: Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Share to Tumblr</a>
+                <div class="column">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="img/sambal-ikan-tuna-asap-pedas-2-botol-150gr.jpg" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Username</h5>
+                            <p class="card-text">Pantunnya: Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <img src="img/tumblr.jpg" v-on:click="share" style="width: 25px;">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="column">
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="sambal-ikan-tuna-asap-pedas-2-botol-150gr.jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Username</h5>
-                        <p class="card-text">Pantunnya: Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Share to Tumblr</a>
+                <div class="column">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="img/sambal-ikan-tuna-asap-pedas-2-botol-150gr.jpg" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Username</h5>
+                            <p class="card-text">Pantunnya: Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <img src="img/tumblr.jpg" v-on:click="share" style="width: 25px;">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="column">
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="sambal-ikan-tuna-asap-pedas-2-botol-150gr.jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Username</h5>
-                        <p class="card-text">Pantunnya: Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Share to Tumblr</a>
+                <div class="column">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="img/sambal-ikan-tuna-asap-pedas-2-botol-150gr.jpg" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Username</h5>
+                            <p class="card-text">Pantunnya: Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <img src="img/tumblr.jpg" v-on:click="share" style="width: 25px;">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="column">
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="sambal-ikan-tuna-asap-pedas-2-botol-150gr.jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Username</h5>
-                        <p class="card-text">Pantunnya: Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Share to Tumblr</a>
+                <div class="column">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="img/sambal-ikan-tuna-asap-pedas-2-botol-150gr.jpg" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Username</h5>
+                            <p class="card-text">Pantunnya: Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <img src="img/tumblr.jpg" v-on:click="share" style="width: 25px;">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="column">
-                <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="sambal-ikan-tuna-asap-pedas-2-botol-150gr.jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title">Username</h5>
-                        <p class="card-text">Pantunnya: Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        <a href="#" class="btn btn-primary">Share to Tumblr</a>
+                <div class="column">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="img/sambal-ikan-tuna-asap-pedas-2-botol-150gr.jpg" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Username</h5>
+                            <p class="card-text">Pantunnya: Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <img src="img/tumblr.jpg" v-on:click="share" style="width: 25px;">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data: {
+                username:''
+            },
+            methods: {
+                logout(){
+                    localStorage.removeItem(token)
+                    window.location="index.html"
+                }
+            }
+        })
+    </script>
 </body>
 </html>
