@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="style.css">
+<style>
+</style>
+</head>
+<body>
+<div class="container">
+  <form action="/">
+    <div class="row">
+      <h2 style="text-align:center">Register or Login</h2>
+      <div class="vl">
+        <span class="vl-innertext">or</span>
+      </div>
+
+      <div class="col">
+        <div class="hide-md-lg">
+          <p>Register:</p>
+        </div>
+        <input type="email" v-model="email" placeholder="Email" required>
+        <input type="password" v-model="password" placeholder="Password" required>
+        <input type="submit" value="Register">
+      </div>
+
+      <div class="col">
+        <div class="hide-md-lg">
+          <p>Sign in:</p>
+        </div>
+        <input type="email" v-model="email" placeholder="Email" required>
+        <input type="password" v-model="password" placeholder="Password" required>
+        <input type="submit" value="Login">
+      </div>
+      
+    </div>
+  </form>
+</div>
+</body>
+</html>
+
