@@ -4,14 +4,18 @@
     background-color: #bbb;
     border-radius: 50%;
     display: inline-block;
-    margin-top: 7px;
+    margin-top: 10px;
 }
 
 .column {
     float: center;
     width: 25%;
+    margin-right: 10px !important;
 }
 
+.row {
+    float: center;
+}
 /* Clear floats after rows */ 
 .row:after {
     content: "";
@@ -20,8 +24,18 @@
 }
 
 .card {
-    padding: 10px;
+    padding: 5px !important;
     margin: 5px;
-    margin-left: 5px;
-    margin-right: 5px;
+}
+
+.logout {
+    float: right;
+    margin-top: 10px;
+}
+
+.card-img-top {
+    width: 250px;
+    height: auto;
+    float: center;
+    margin: 0px auto !important;
 }

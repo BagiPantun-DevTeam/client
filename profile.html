@@ -13,13 +13,13 @@
 </style>
 <body>
     <div class="container">
-        <div class="user" v-model="user">
-            <div style="text-align:left">
-                <span class="dot"></span>
-                <h4>Setia Anggraeni</h4>
+            <div class="col-sm-12" v-model="user">
+                <div class="logout" v-on:click="logout" style="text-align: right">Logout</div>
+                <div style="text-align:left">
+                    <span class="dot"></span>
+                    <h4>Setia Anggraeni</h4>
+                </div>
             </div>
-        </div>
-
         <div class="row">
             <div class="column">
                 <div class="card" style="width: 18rem;">
