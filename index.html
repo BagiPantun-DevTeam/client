@@ -60,7 +60,7 @@
         .then(user => {
           console.log(user)
           localStorage.setItem("token", user.token)
-          window.location="home.html"
+          window.location="profile.html"
         })
         .catch(err => {
           console.log(err)
