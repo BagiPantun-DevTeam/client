@@ -61,8 +61,8 @@
         })
         .then(user => {
           console.log(user)
-          localStorage.setItem("tokenbagipantun", user.token)
-          window.location="/homepage.html"
+          localStorage.setItem("token", user.token)
+          window.location="profile.html"
         })
         .catch(err => {
           console.log(err)
