@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="profile.css">
+
+    <title>Bagi Pantun Homepage - Welcome :)</title>
+</head>
+<body>
+    <div id="navbar">
+        <center>
+            <button
+                v-for="tab in tabs"
+                v-bind:key="tab"
+                v-bind:class="['tab-button', { active: currentTab === tab }]"
+                v-on:click="currentTab = tab">
+                {{ tab }}
+            </button>
+        </center>
+        
+        <component
+          v-bind:is="currentTabComponent"
+          v-bind:members="members" 
+        ></component>
+
+    </div>
+
+    <script src="./components/header.js"></script>
+    <script src="./library/tokenAuth.js"></script>
+
+    <script>
+        Vue.component('tab-profile', { 
+            template: `
+            <div class="container">
+                <div class="col-sm-12" v-model="user">
+                        <!-- <div class="timeline" v-on:click="timeline" style="text-align: right">Timeline</div> -->
+                        <div class="logout" v-on:click="logout" style="text-align: right">Logout</div>
+                    <div style="text-align:left">
+                        <span class="dot"></span>
+                        <h4>Setia Anggraeni</h4>
+                    </div>
+                </div>
+                <hr>
+                <br>
+    
+                <div class="row">
+                    <div class="column" v-for="item in posts">
+                        <div class="card" style="width: 18rem;">
+                            <img v-bind:src="item.imageSource" class="img" style="width:100%">
+                            <div class="card-body">
+                            {{item.content}}
+                            <br>
+                            <img src="img/tumblr.jpg" v-on:click="share(item.imageSource, item.content)" style="width: 25px;">
+                            <img src="img/twitter.jpg" @click="shareTwitter(item.imageSource, item.content)" data-size="large" style="width: 33px;">
+                            <!-- <a class="twitter-share-button" @click="shareTwitter(item.imageSource, item.content)" data-size="large">Tweet</a> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `,
+            data: {
+                posts:[],
+                img: null
+            },
+            mounted() {
+                console.log('hi')
+                this.getPost()
+            },
+            methods: {
+                logout(){
+                    localStorage.removeItem('token')
+                    window.location="index.html"
+                },
+                getPost() {
+                    let token = localStorage.getItem('token')
+                    console.log('ini masuk get post', token)
+                    if(token){
+                        axios.get('http://localhost:3000/posts')
+                        .then(response => {
+                            console.log("========",response.data)
+                            this.posts = response.data
+                        })
+                        .catch(function (error) {
+                            console.log('error')
+                        })
+                    } else{
+                        alert('Please login to view your profile!');
+                        location.replace("index.html");
+                    }
+                },
+                share(image, caption){
+                    axios.post('http://localhost:3000/', {
+                        source : image,
+                        caption : caption
+                    },{
+                        headers: {
+                            token : localStorage.getItem("token")
+                        }
+                    })
+                    .then()
+                    .catch()
+                    // console.log('test share')
+                },
+                shareTwitter(image, caption){
+                    let addrresss = `https://twitter.com/intent/tweet?text=${caption}%20${image}`
+                    window.location = addrresss
+                },
+                timeline(){
+                    let token = localStorage.getItem('token')
+                    console.log('ini masuk get post', token)
+                    if(token){
+                        axios.get('http://localhost:3000/posts')
+                        .then(response => {
+                            console.log("========",response.data)
+                            this.posts = response.data
+                        })
+                        .catch(function (error) {
+                            console.log('error')
+                        })
+                    } else{
+                        alert('Please login to view your profile!');
+                        location.replace("index.html");
+                    }
+                }
+            }
+        })
+        Vue.component('tab-timeline', { 
+            template: `
+            <div class="container">
+                <div class="col-sm-12" v-model="user">
+                        <!-- <div class="timeline" v-on:click="timeline" style="text-align: right">Timeline</div> -->
+                        <div class="logout" v-on:click="logout" style="text-align: right">Logout</div>
+                    <div style="text-align:left">
+                        <span class="dot"></span>
+                        <h4>Setia Anggraeni</h4>
+                    </div>
+                </div>
+                <hr>
+                <br>
+    
+                <div class="row">
+                    <div class="column" v-for="item in posts">
+                        <div class="card" style="width: 18rem;">
+                            <img v-bind:src="item.imageSource" class="img" style="width:100%">
+                            <div class="card-body">
+                            {{item.content}}
+                            <br>
+                            <img src="img/tumblr.jpg" v-on:click="share(item.imageSource, item.content)" style="width: 25px;">
+                            <img src="img/twitter.jpg" @click="shareTwitter(item.imageSource, item.content)" data-size="large" style="width: 33px;">
+                            <!-- <a class="twitter-share-button" @click="shareTwitter(item.imageSource, item.content)" data-size="large">Tweet</a> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `,
+            data: {
+                posts:[],
+                img: null
+            },
+            mounted() {
+                console.log('hi')
+                this.getPost()
+            },
+            methods: {
+                logout(){
+                    localStorage.removeItem('token')
+                    window.location="index.html"
+                },
+                getPost() {
+                    let token = localStorage.getItem('token')
+                    console.log('ini masuk get post', token)
+                    if(token){
+                        axios.get('http://localhost:3000/posts')
+                        .then(response => {
+                            console.log("========",response.data)
+                            this.posts = response.data
+                        })
+                        .catch(function (error) {
+                            console.log('error')
+                        })
+                    } else{
+                        alert('Please login to view your profile!');
+                        location.replace("index.html");
+                    }
+                    
+                },
+                share(image, caption){
+                    axios.post('http://localhost:3000/', {
+                        source : image,
+                        caption : caption
+                    },{
+                        headers: {
+                            token : localStorage.getItem("token")
+                        }
+                    })
+                    .then()
+                    .catch()
+                    // console.log('test share')
+                },
+                shareTwitter(image, caption){
+                    let addrresss = `https://twitter.com/intent/tweet?text=${caption}%20${image}`
+                    window.location = addrresss
+                },
+                timeline(){
+                    let token = localStorage.getItem('token')
+                    console.log('ini masuk get post', token)
+                    if(token){
+                        axios.get('http://localhost:3000/posts')
+                        .then(response => {
+                            console.log("========",response.data)
+                            this.posts = response.data
+                        })
+                        .catch(function (error) {
+                            console.log('error')
+                        })
+                    } else{
+                        alert('Please login to view your profile!');
+                        location.replace("index.html");
+                    }
+                }
+            }
+        })
+        Vue.component('tab-aboutus', { 
+            props: ['members'],
+            template: `
+            <div>
+                <ul>
+                    <li v-for="member in members">{{ member }}</li>
+                </ul>
+            </div>
+            `
+            //template: `<div>{{ members }}</div>`
+        })
+
+        new Vue({
+          el: '#navbar',
+          data: {
+            currentTab: 'Timeline',
+            tabs: ['Profile', 'Timeline', 'AboutUs'],
+            members: ['Setia', 'Yusuf', 'Richardson', 'Andrew']
+          },
+          computed: {
+            currentTabComponent: function () {
+              return 'tab-' + this.currentTab.toLowerCase()
+            }
+          }
+        })
+
+        
+
+        function tokenAuth () {
+            let token = localStorage.getItem('tokenbagipantun')
+            if(!token) {
+                window.location.replace('/index.html')
+                alert("You must login or register to view our Mainpage :(")
+            }
+        }       
+    </script>
+    
+</body>
+</html>
