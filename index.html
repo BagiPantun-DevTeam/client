@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="profile.css">
+<style>
+</style>
+
+</head>
+<body>
+<div class="container">
+  <div id="app"> 
+    <div class="row">
+        <div v-if="seen">
+          <div class="vl">
+            <h2 style="text-align:center">Login</h2>
+            <input type="email" v-model="username" placeholder="Username" required>
+            <input type="password" v-model="password" placeholder="Password" required>
+            <input type="submit" value="Login" v-on:click="login">
+            <p style="text-align: right">Not a user yet? <button v-on:click="toRegister">Register</button></p>
+          </div>
+        </div>
+        <div v-else>
+          <div class="vl">
+            <h2 style="text-align:center">Register</h2>
+            <input type="text" v-model="username" placeholder="Username" required>
+            <input type="email" v-model="email" placeholder="Email" required>
+            <input type="password" v-model="password" placeholder="Password" required>
+            <input type="submit" value="Register" v-on:click="register">
+            <p style="text-align: right">Already have an account? <button v-on:click="toLogin">Login</button></p>
+          </div>
+        </div>
+    </div>
+  </div> 
+<script>
+  var vm = new Vue({
+    el: "#app",
+    data: {
+      username : '',
+      email: '',
+      password: '',
+      seen: true
+    },
+    methods: {
+      toRegister(){
+        this.seen = false
+      },
+      toLogin(){
+        this.seen = true
+      },
+      register(){
+        axios.post('http://localhost:3000/users/signup', {
+          username: this.username,
+          email: this.email,
+          password: this.password
+        })
+        .then(user => {
+          console.log(user)
+          localStorage.setItem("token", user.token)
+          window.location="profile.html"
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      },
+      login(){
+        let self = this // biar g bentrok sm axios rubah this jadi self
+        axios.post('http://localhost:3000/users/signin', {
+          username: self.username,
+          password: self.password
+        })
+        .then(user => {
+          // console.log(user)
+          localStorage.setItem("token", user.token)
+          window.location="profile.html"
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      }
+    }
+  })
+</script>
+</body>
+</html>
+
