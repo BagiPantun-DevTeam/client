@@ -67,7 +67,7 @@
         })
       },
       login(){
-        let self = this // biar g bentrok sm axio
+        let self = this // biar g bentrok sm axios rubah this jadi self
         axios.post('http://localhost:3000/users/signin', {
           username: self.username,
           password: self.password

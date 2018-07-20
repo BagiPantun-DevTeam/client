@@ -15,27 +15,48 @@
 <body>
     <div id="app">
         <div class="container">
-            <div class="col-sm-12" v-model="user">
-                    <!-- <div class="timeline" v-on:click="timeline" style="text-align: right">Timeline</div> -->
-                    <div class="logout" v-on:click="logout" style="text-align: right">Logout</div>
-                <div style="text-align:left">
-                    <span class="dot"></span>
-                    <h4>Setia Anggraeni</h4>
+            <div v-if="seen">
+                <div class="col-sm-12">
+                        <div class="logout" v-on:click="logout" style="text-align: right">Logout</div>
+                    <div style="text-align:left">
+                        <span class="dot"></span>
+                        <h4>Setia Anggraeni</h4>
+                    </div>
                 </div>
-            </div>
-            <hr>
-            <br>
-
-            <div class="row">
-                <div class="column" v-for="item in posts">
-                    <div class="card" style="width: 18rem;">
-                        <img v-bind:src="item.imageSource" class="img" style="width:100%">
-                        <div class="card-body">
+                <div class="timeline" v-on:click="timeline" style="text-align: right">Timeline</div>
+                <hr>
+                <br>
+                
+                <div class="form-group">
+                    <textarea class="form-control rounded-0" id="textarea" v-model="caption" rows="3" v-model="text"></textarea>
+                    <br>
+                    <input type="file" v-on:change="handleUpload($event.target.files[0])">
+                    <button @click="unsplash">Randomize</button>
+                    <button @click="post" id="btnUpdate">Update</button>
+                </div>
+    
+                <div class="row">
+                    <div class="column" v-for="item in posts">
+                        <img v-bind:src="item.imageUrl" class="img" style="width:100%">
+                        <!-- <div class="card-body"> -->
                         {{item.content}}
                         <br>
                         <img src="img/tumblr.jpg" v-on:click="share(item.imageSource, item.content)" style="width: 25px;">
-                        <img src="img/twitter.jpg" @click="shareTwitter(item.imageSource, item.content)" data-size="large" style="width: 33px;">
-                        <!-- <a class="twitter-share-button" @click="shareTwitter(item.imageSource, item.content)" data-size="large">Tweet</a> -->
+                        <img src="img/twitter.jpg" v-on:click="shareTwitter(item.imageSource, item.content)" data-size="large" style="width: 33px;">
+                    </div>
+                </div>
+            </div>
+            
+            <div v-else>
+                <div class="timeline" v-on:click="profile" style="text-align: right">Profile</div>
+                <div class="row">
+                    <div class="column" v-for="item in posts">
+                        <img v-bind:src="item.imageSource" class="img" style="width:100%">
+                        <!-- <div class="card-body"> -->
+                        {{item.content}}
+                        <br>
+                        <img src="img/tumblr.jpg" v-on:click="share(item.imageSource, item.content)" style="width: 25px;">
+                        <img src="img/twitter.jpg" v-on:click="shareTwitter(item.imageSource, item.content)" data-size="large" style="width: 33px;">
                     </div>
                 </div>
             </div>
@@ -46,22 +67,33 @@
             el:'#app',
             data: {
                 posts:[],
-                img: null
+                img: null,
+                seen: true,
+                caption: '',
+                image: null
+
             },
             mounted() {
-                console.log('hi')
+                // console.log('hi')
                 this.getPost()
             },
             methods: {
+                handleUpload (e) {
+                    this.image = e
+                },
                 logout(){
                     localStorage.removeItem('token')
                     window.location="index.html"
                 },
-                getPost() {
+                getPost() { // profile
                     let token = localStorage.getItem('token')
-                    console.log('ini masuk get post', token)
+                    // console.log('ini masuk get post', token)
                     if(token){
-                        axios.get('http://localhost:3000/posts')
+                        axios.get('http://localhost:3000/posts/userpost', {
+                            headers: {
+                                token : localStorage.getItem("token")
+                            }
+                        })
                         .then(response => {
                             console.log("========",response.data)
                             this.posts = response.data
@@ -75,7 +107,7 @@
                     }
                     
                 },
-                share(image, caption){
+                share(image, caption){ // tumblr
                     axios.post('http://localhost:3000/', {
                         source : image,
                         caption : caption
@@ -84,17 +116,21 @@
                             token : localStorage.getItem("token")
                         }
                     })
-                    .then()
-                    .catch()
-                    // console.log('test share')
+                    .then(shareTubmlr => {
+                        console.log('Successfully share to Tumblr'); 
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    })
                 },
                 shareTwitter(image, caption){
                     let addrresss = `https://twitter.com/intent/tweet?text=${caption}%20${image}`
                     window.location = addrresss
                 },
                 timeline(){
+                    this.seen = false
                     let token = localStorage.getItem('token')
-                    console.log('ini masuk get post', token)
+                    console.log('ini masuk timeline', token)
                     if(token){
                         axios.get('http://localhost:3000/posts')
                         .then(response => {
@@ -108,6 +144,67 @@
                         alert('Please login to view your profile!');
                         location.replace("index.html");
                     }
+                },
+                post(){
+                    let self = this
+                    let formData = new FormData()
+                    formData.append('image', this.image)
+                    let token = localStorage.getItem('token')
+                    axios.post("http://localhost:3000/gcs/upload", formData)
+                    .then(response => {
+                        console.log("ini respon kah ========> ",response)
+                        axios.post('http://localhost:3000/posts',{ 
+                            content : self.caption,
+                            imageSource: response.data.link
+                        }, {
+                            headers : {
+                                token: localStorage.getItem("token")
+                            }
+                        })
+                        .then(newPost => {
+                            console.log("=====",newPost)
+                            console.log("post donk!");
+                            window.location="profile.html"
+                        })
+                        .catch(function (error) {
+                            console.log('Sorry, you cant post now! Please kindly to contact our rockers customer service!')
+                        })
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+
+                    
+                },
+                profile(){
+                    this.seen = true
+                },
+                unsplash(){
+                    axios.get('http://localhost:3000/unsplash')
+                    .then(response => {
+                        this.image = response.data
+                        console.log(response.data)
+                        axios.post('http://localhost:3000/posts',{ 
+                            content : this.caption,
+                            imageSource: this.image
+                        }, {
+                            headers : {
+                                token: localStorage.getItem("token")
+                            }
+                        })
+                        .then(newPost => {
+                            console.log("=====",newPost)
+                            console.log("post donk!");
+                            window.location="profile.html"
+                        })
+                        .catch(function (error) {
+                            console.log('Sorry, you cant post now! Please kindly to contact our rockers customer service!')
+                        })
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        
+                    })
                 }
             }
         })
