@@ -6,6 +6,8 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" href="profile.css">
 <style>
 </style>
 
@@ -59,8 +61,8 @@
         })
         .then(user => {
           console.log(user)
-          localStorage.setItem("token", user.token)
-          window.location="home.html"
+          localStorage.setItem("tokenbagipantun", user.token)
+          window.location="/homepage.html"
         })
         .catch(err => {
           console.log(err)
@@ -74,8 +76,8 @@
         })
         .then(user => {
           // console.log(user)
-          localStorage.setItem("token", user.data)
-          window.location="profile.html"
+          localStorage.setItem("tokenbagipantun", user.data)
+          window.location="/homepage.html"
         })
         .catch(err => {
           console.log(err)
