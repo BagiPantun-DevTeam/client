@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue"></script>
+
+    <title>Bagi Pantun Homepage - Welcome :)</title>
+</head>
+<body>
+    <div id="navbar">
+        <button
+          v-for="tab in tabs"
+          v-bind:key="tab"
+          v-bind:class="['tab-button', { active: currentTab === tab }]"
+          v-on:click="currentTab = tab">
+          {{ tab }}</button>
+        
+        <component
+          v-bind:is="currentTabComponent"
+          v-bind:members="members" 
+        ></component>
+
+    </div>
+
+    <script src="./components/header.js"></script>
+    <script src="./library/tokenAuth.js"></script>
+
+    <script>
+        Vue.component('photo-profile', {
+            template: `alive`
+        })
+
+        Vue.component('members-list', {
+            
+        })
+
+        Vue.component('tab-profile', { 
+            template: `
+            <div>
+                lalala
+                <photo-profile></photo-profile>
+            </div>
+            `
+        })
+        Vue.component('tab-timeline', { 
+            template: `
+            <div>
+                lelele
+                
+            </div>
+            `
+        })
+        Vue.component('tab-aboutus', { 
+            props: ['members'],
+            template: `
+            <div>
+                <ul>
+                    <li v-for="member in members">{{ member }}</li>
+                </ul>
+            </div>
+            `
+            //template: `<div>{{ members }}</div>`
+        })
+
+        new Vue({
+          el: '#navbar',
+          data: {
+            currentTab: 'Timeline',
+            tabs: ['Profile', 'Timeline', 'AboutUs'],
+            members: ['Setia', 'Yusuf', 'Richardson', 'Andrew']
+          },
+          computed: {
+            currentTabComponent: function () {
+              return 'tab-' + this.currentTab.toLowerCase()
+            }
+          }
+        })
+
+        
+
+
+    </script>
+    
+</body>
+</html>
