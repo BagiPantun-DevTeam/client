@@ -1,42 +1,99 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="style.css">
-<style>
-</style>
-</head>
-<body>
-<div class="container">
-  <form action="/">
-    <div class="row">
-      <h2 style="text-align:center">Register or Login</h2>
-      <div class="vl">
-        <span class="vl-innertext">or</span>
-      </div>
+    <head>
+        <meta charset="UTF-8">    
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="style.css">
 
-      <div class="col">
-        <div class="hide-md-lg">
-          <p>Register:</p>
-        </div>
-        <input type="email" v-model="email" placeholder="Email" required>
-        <input type="password" v-model="password" placeholder="Password" required>
-        <input type="submit" value="Register">
-      </div>
+        <title>BagiPantun - Selalu untuk kita semua</title>
 
-      <div class="col">
-        <div class="hide-md-lg">
-          <p>Sign in:</p>
+        <style>
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <div class="container">
+              <form action="/">
+                <div class="row">
+                  <h2 style="text-align:center">Register or Login</h2>
+                  <div class="vl">
+                    <span class="vl-innertext">or</span>
+                  </div>
+
+                  <div class="col">
+                    <div class="hide-md-lg">
+                      <p>Register:</p>
+                    </div>
+                    <input type="email" v-model="registeremail" placeholder="Email" required>
+                    <input type="password" v-model="registerpassword" placeholder="Password" required>
+                    <button v-on:click="register()">Register</button>
+                  </div>
+
+                  <div class="col">
+                    <div class="hide-md-lg">
+                      <p>Sign in:</p>
+                    </div>
+                    <input type="email" v-model="loginemail" placeholder="Email" required>
+                    <input type="password" v-model="loginpassword" placeholder="Password" required>
+                    <button v-on:click="login()">Login</button>
+                  </div>
+
+                </div>
+              </form>
+            </div>
         </div>
-        <input type="email" v-model="email" placeholder="Email" required>
-        <input type="password" v-model="password" placeholder="Password" required>
-        <input type="submit" value="Login">
-      </div>
-      
-    </div>
-  </form>
-</div>
-</body>
+        <script>
+            var app = new Vue ({
+                
+                el: '#app',
+                data: {
+                    email: '',
+                    password: ''
+                },
+                methods: {
+                    register: function () {
+
+                        let userData = {
+                            email: this.registeremail,
+                            password: this.registerpassword
+                        }
+
+                        axios.post('endpoint for register', userData, {
+                            
+                        }).then(user => {
+                            console.log(user)
+                        }).catch(err => {
+                            console.log(err)
+                        })
+                    },
+                    login: function () {
+
+                        let userData = {
+                            email: this.loginemail,
+                            password: this.loginpassword
+                        }
+
+                        axios.post('endpoint for login', userData, {
+                            
+                        }).then(user => {
+                            console.log(user)
+                            //localStorage.setItem('tokenbagipantun', isi token)
+                        }).then(() => {
+                            console.log('moving to homepage')
+                            window.location.replace("/homepage.html")
+                        }).catch(err => {
+                            console.log(err)
+                        })
+                    }
+                }
+            })
+            
+        
+        </script>
+    </body>
 </html>
 
